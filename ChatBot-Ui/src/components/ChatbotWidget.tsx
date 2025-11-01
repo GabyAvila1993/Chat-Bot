@@ -1,7 +1,7 @@
 // src/components/ChatbotWidget.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import { sendMessageToAura } from '../api/chatbotService';
-import './ChatbotWidget.css';
+import './ChatBotWidget.css';
 
 interface ChatMessage {
   text: string;
