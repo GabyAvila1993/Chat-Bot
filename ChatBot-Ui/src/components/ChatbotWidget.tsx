@@ -17,7 +17,7 @@ export const ChatbotWidget: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(scrollToBottom, [messages]);
@@ -38,55 +38,72 @@ export const ChatbotWidget: React.FC = () => {
     setMessages(prev => [...prev, auraMessage]);
   };
 
+  const handleClose = () => setIsOpen(false);
+
   return (
-    <div className="chatbot-container">
+    <>
+      {/* Avatar — siempre visible en esquina */}
       {!isOpen && (
-        <div className="chatbot-avatar" onClick={() => setIsOpen(true)}>
-          <img src={chatIcon} alt="Aura Assistant" />
+        <div className="chatbot-container">
+          <div className="chatbot-avatar" onClick={() => setIsOpen(true)}>
+            <img src={chatIcon} alt="Aura Assistant" />
+          </div>
         </div>
       )}
+
+      {/* Overlay + Modal de chat */}
       {isOpen && (
-        <div className="chat-window">
-          <div className="chat-header">
-            <div className="header-content">
-              <img src={chatIcon} alt="Aura" className="header-avatar" />
-              <div className='envoltura-title'>
-                <h3 className='title'>Aura</h3>
-                <h6 className='title'>Asistente Útil de Respuesta Automatizada</h6>
+        <>
+          {/* Overlay oscuro detrás del modal */}
+          <div className="chat-overlay" onClick={handleClose} />
+
+          {/* Ventana de chat — modal centrado grande */}
+          <div className="chat-window">
+            <div className="chat-header">
+              <div className="header-content">
+                <img src={chatIcon} alt="Aura" className="header-avatar" />
+                <div className="envoltura-title">
+                  <h3 className="title">Aura</h3>
+                  <h6 className="title">Asistente Útil de Respuesta Automatizada</h6>
+                </div>
               </div>
+              <button
+                onClick={handleClose}
+                className="close-btn"
+                aria-label="Cerrar chat"
+              >
+                ×
+              </button>
             </div>
-            <button 
-              onClick={() => setIsOpen(false)} 
-              className="close-btn"
-              aria-label="Cerrar chat"
-            >
-              ×
-            </button>
+
+            <div className="chat-messages">
+              {messages.map((msg, index) => (
+                <div key={index} className={`message ${msg.sender}`}>
+                  <p>{msg.text}</p>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="message aura"><p>Escribiendo...</p></div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            <form onSubmit={handleSend} className="chat-input-form">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Habla con AURA..."
+                disabled={isLoading}
+                aria-label="Escribe tu mensaje"
+              />
+              <button type="submit" disabled={isLoading} aria-label="Enviar mensaje">
+                <div className="send-icon"></div>
+              </button>
+            </form>
           </div>
-          <div className="chat-messages">
-            {messages.map((msg, index) => (
-              <div key={index} className={`message ${msg.sender}`}>
-                <p>{msg.text}</p>
-              </div>
-            ))}
-            {isLoading && <div className="message aura"><p>Escribiendo...</p></div>}
-            <div ref={messagesEndRef} />
-          </div>
-          <form onSubmit={handleSend} className="chat-input-form">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Habla con AURA..."
-              disabled={isLoading}
-              aria-label="Escribe tu mensaje"
-            />
-            <button type="submit" disabled={isLoading} aria-label="Enviar mensaje">
-              <div className="send-icon"></div>
-            </button>
-          </form>
-        </div>
+        </>
       )}
-    </div >
+    </>
   );
 };
