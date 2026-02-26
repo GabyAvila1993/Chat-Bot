@@ -3,6 +3,22 @@ import { alcoholContext } from './mcp-context-alcohol';
 import { cardiovascularContext } from './mcp-context-cardiovascular';
 import { diabetesContext } from './mcp-context-diabetes';
 import { epocContext } from './mcp-context-epoc';
+import { offlineDownloadContext } from './offline-download-context';
+import { saveLocationContext } from './save-location-context';
+import { searchPlacesContext } from './search-places-context';
+import { placeDetailsContext } from './place-details-context';
+import { createReviewContext } from './create-review-context';
+import { requestAppointmentContext } from './request-appointment-context';
+import { themeContext } from './theme-context';
+import { geolocationContext } from './geolocation-context';
+import { viewSavedLocationsContext } from './view-saved-locations-context';
+import { mapFiltersContext } from './map-filters-context';
+import { viewReviewsContext } from './view-reviews-context';
+import { authContext } from './auth-context';
+import { languageContext } from './language-context';
+import { syncContext } from './sync-context';
+import { preferencesContext } from './preferences-context';
+import { uiActionsContext } from './ui-actions-context';
 
 export const saludMapContext: MCPContext = {
   projectInfo: {
@@ -85,3 +101,25 @@ export const medicalContexts: MCPMedicalContext[] = [
   diabetesContext,
   epocContext
 ];
+
+export const featureContexts = [
+  offlineDownloadContext,
+  saveLocationContext,
+  searchPlacesContext,
+  placeDetailsContext,
+  createReviewContext,
+  requestAppointmentContext
+];
+
+featureContexts.push(
+  themeContext,
+  geolocationContext,
+  viewSavedLocationsContext,
+  mapFiltersContext,
+  viewReviewsContext,
+  authContext,
+  languageContext,
+  syncContext,
+  preferencesContext,
+  uiActionsContext
+);
